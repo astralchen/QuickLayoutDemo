@@ -130,24 +130,15 @@ final class ScrollView: UIView, HasBody {
     }
 
     /// 滚动指示器边距（垂直）
-    @available(iOS 11.3, *)
     var verticalScrollIndicatorInsets: UIEdgeInsets {
         get { scrollView.verticalScrollIndicatorInsets }
         set { scrollView.verticalScrollIndicatorInsets = newValue }
     }
 
     /// 滚动指示器边距（水平）
-    @available(iOS 11.3, *)
     var horizontalScrollIndicatorInsets: UIEdgeInsets {
         get { scrollView.horizontalScrollIndicatorInsets }
         set { scrollView.horizontalScrollIndicatorInsets = newValue }
-    }
-
-    /// 滚动指示器边距（已废弃，建议使用 verticalScrollIndicatorInsets 和 horizontalScrollIndicatorInsets）
-    @available(iOS, introduced: 2.0, deprecated: 13.0, message: "Use verticalScrollIndicatorInsets and horizontalScrollIndicatorInsets instead")
-    var scrollIndicatorInsets: UIEdgeInsets {
-        get { scrollView.scrollIndicatorInsets }
-        set { scrollView.scrollIndicatorInsets = newValue }
     }
 
     // MARK: - Public Methods
@@ -167,18 +158,20 @@ final class ScrollView: UIView, HasBody {
         // 强制布局以确保 contentSize 是最新的
         scrollView.layoutIfNeeded()
 
+        // 获取实际生效的 contentInset（包含系统自动调整的安全区域）
+        let adjustedInset = scrollView.adjustedContentInset
+
         let bottomOffset: CGPoint
         switch axis {
         case .vertical:
             // 计算滚动到底部的偏移量
-            // 最简单的方式：让内容的底部对齐到 scrollView 的底部
-            let offsetY = scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom
-            bottomOffset = CGPoint(x: scrollView.contentOffset.x, y: max(-scrollView.contentInset.top, offsetY))
+            let offsetY = scrollView.contentSize.height - scrollView.bounds.height + adjustedInset.bottom
+            bottomOffset = CGPoint(x: scrollView.contentOffset.x, y: max(-adjustedInset.top, offsetY))
 
         case .horizontal:
             // 计算滚动到最右侧的偏移量
-            let offsetX = scrollView.contentSize.width - scrollView.bounds.width + scrollView.contentInset.right
-            bottomOffset = CGPoint(x: max(-scrollView.contentInset.left, offsetX), y: scrollView.contentOffset.y)
+            let offsetX = scrollView.contentSize.width - scrollView.bounds.width + adjustedInset.right
+            bottomOffset = CGPoint(x: max(-adjustedInset.left, offsetX), y: scrollView.contentOffset.y)
         }
 
         scrollView.setContentOffset(bottomOffset, animated: animated)
@@ -218,8 +211,7 @@ extension ScrollView {
         return self
     }
 
-    /// 配置内容边距调整行为（iOS 11+）
-    @available(iOS 11.0, *)
+    /// 配置内容边距调整行为
     func contentInsetAdjustmentBehavior(_ behavior: UIScrollView.ContentInsetAdjustmentBehavior) -> Self {
         scrollView.contentInsetAdjustmentBehavior = behavior
         return self
