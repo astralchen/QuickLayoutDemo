@@ -331,7 +331,8 @@ class DynamicScrollViewController: UIViewController {
 
     @objc private func addItemTapped() {
         addItems(count: 1)
-        scrollView.setNeedsLayout()
+        scrollView.refresh()
+        scrollView.scrollToBottom()
     }
 
     private func addItems(count: Int) {

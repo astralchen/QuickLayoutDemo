@@ -1,21 +1,13 @@
-//
-//  ScrollView.swift
-//  MessageCell
-//
-//  Created by Sondra on 2025/12/22.
-//
-
 import UIKit
 import QuickLayout
 
 // MARK: - ScrollView 容器视图
 /// 类似 SwiftUI ScrollView 风格的滚动视图封装
-//  @QuickLayout
-//  https://facebookincubator.github.io/QuickLayout/how-to-use/macro-layout-integration-donts/
+/// 参考: https://facebookincubator.github.io/QuickLayout/how-to-use/macro-layout-integration-donts/
 final class ScrollView: UIView, HasBody {
 
     // MARK: - Properties
-    let scrollView = UIScrollView()
+    private(set) var scrollView = UIScrollView()
     private let contentLayout: () -> Layout
 
     /// 滚动方向
@@ -62,12 +54,12 @@ final class ScrollView: UIView, HasBody {
 
     // MARK: - QuickLayout Integration
 
-    // 重写 bodyContainerView，让 body 的内容添加到 scrollView
+    /// 重写 bodyContainerView，让 body 的内容添加到 scrollView
     override var bodyContainerView: UIView {
         scrollView
     }
 
-    // body 返回内容布局
+    /// body 返回内容布局
     var body: Layout {
         contentLayout()
     }
@@ -75,19 +67,20 @@ final class ScrollView: UIView, HasBody {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-       // _QuickLayoutViewImplementation.layoutSubviews(self)
+        // 让 scrollView 填充整个视图
+        scrollView.frame = bounds
 
-        let alignment: Alignment
-        switch axis {
-        case .vertical:
-            alignment = .top
-        case .horizontal:
-            alignment = .leading
-        }
+        // 根据滚动方向设置对齐方式
+        // 垂直滚动：内容从顶部开始
+        // 水平滚动：内容从左侧开始
+        let alignment: Alignment = axis == .vertical ? .top : .leading
 
+        // 手动应用布局，指定对齐方式
+        // 不能使用 _QuickLayoutViewImplementation.layoutSubviews(self)
+        // 因为它会使用默认的居中对齐，导致滚动视图内容居中而不是从顶部/左侧开始
         body.applyFrame(bounds, alignment: alignment)
 
-        scrollView.frame = bounds
+        // 更新 scrollView 的 contentSize
         scrollView.contentSize = sizeThatFits(bounds.size)
     }
 
@@ -96,37 +89,139 @@ final class ScrollView: UIView, HasBody {
         let proposedSize: CGSize
         switch axis {
         case .vertical:
+            // 垂直滚动：宽度固定，高度无限
             proposedSize = CGSize(width: size.width, height: .infinity)
         case .horizontal:
+            // 水平滚动：高度固定，宽度无限
             proposedSize = CGSize(width: .infinity, height: size.height)
         }
 
+        // 使用 QuickLayout 的实现计算大小
         return _QuickLayoutViewImplementation.sizeThatFits(self, size: proposedSize) ?? .zero
     }
 
-
     // MARK: - Public Configuration
+
+    /// 控制边界弹性效果
     var bounces: Bool {
         get { scrollView.bounces }
         set { scrollView.bounces = newValue }
     }
 
+    /// 是否启用分页滚动
     var isPagingEnabled: Bool {
         get { scrollView.isPagingEnabled }
         set { scrollView.isPagingEnabled = newValue }
     }
 
+    /// 当前滚动偏移量
     var contentOffset: CGPoint {
         get { scrollView.contentOffset }
         set { scrollView.setContentOffset(newValue, animated: false) }
     }
 
+    /// 内容边距
+    var contentInset: UIEdgeInsets {
+        get { scrollView.contentInset }
+        set {
+            scrollView.contentInset = newValue
+            setNeedsLayout()
+        }
+    }
+
+    /// 滚动指示器边距（垂直）
+    @available(iOS 11.3, *)
+    var verticalScrollIndicatorInsets: UIEdgeInsets {
+        get { scrollView.verticalScrollIndicatorInsets }
+        set { scrollView.verticalScrollIndicatorInsets = newValue }
+    }
+
+    /// 滚动指示器边距（水平）
+    @available(iOS 11.3, *)
+    var horizontalScrollIndicatorInsets: UIEdgeInsets {
+        get { scrollView.horizontalScrollIndicatorInsets }
+        set { scrollView.horizontalScrollIndicatorInsets = newValue }
+    }
+
+    /// 滚动指示器边距（已废弃，建议使用 verticalScrollIndicatorInsets 和 horizontalScrollIndicatorInsets）
+    @available(iOS, introduced: 2.0, deprecated: 13.0, message: "Use verticalScrollIndicatorInsets and horizontalScrollIndicatorInsets instead")
+    var scrollIndicatorInsets: UIEdgeInsets {
+        get { scrollView.scrollIndicatorInsets }
+        set { scrollView.scrollIndicatorInsets = newValue }
+    }
+
     // MARK: - Public Methods
+
+    /// 滚动到指定偏移量
     func scrollTo(offset: CGPoint, animated: Bool = true) {
         scrollView.setContentOffset(offset, animated: animated)
     }
 
+    /// 滚动到顶部
     func scrollToTop(animated: Bool = true) {
         scrollView.setContentOffset(.zero, animated: animated)
+    }
+
+    /// 滚动到底部
+    func scrollToBottom(animated: Bool = true) {
+        // 强制布局以确保 contentSize 是最新的
+        scrollView.layoutIfNeeded()
+
+        let bottomOffset: CGPoint
+        switch axis {
+        case .vertical:
+            // 计算滚动到底部的偏移量
+            // 最简单的方式：让内容的底部对齐到 scrollView 的底部
+            let offsetY = scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom
+            bottomOffset = CGPoint(x: scrollView.contentOffset.x, y: max(-scrollView.contentInset.top, offsetY))
+
+        case .horizontal:
+            // 计算滚动到最右侧的偏移量
+            let offsetX = scrollView.contentSize.width - scrollView.bounds.width + scrollView.contentInset.right
+            bottomOffset = CGPoint(x: max(-scrollView.contentInset.left, offsetX), y: scrollView.contentOffset.y)
+        }
+
+        scrollView.setContentOffset(bottomOffset, animated: animated)
+    }
+
+    /// 刷新布局（动态内容变化时调用）
+    func refresh() {
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+}
+
+// MARK: - 便捷扩展
+extension ScrollView {
+
+    /// 设置代理
+    func delegate(_ delegate: UIScrollViewDelegate?) -> Self {
+        scrollView.delegate = delegate
+        return self
+    }
+
+    /// 配置弹性效果
+    func bounces(_ enabled: Bool) -> Self {
+        scrollView.bounces = enabled
+        return self
+    }
+
+    /// 配置分页
+    func pagingEnabled(_ enabled: Bool) -> Self {
+        scrollView.isPagingEnabled = enabled
+        return self
+    }
+
+    /// 配置内容边距
+    func contentInset(_ insets: UIEdgeInsets) -> Self {
+        scrollView.contentInset = insets
+        return self
+    }
+
+    /// 配置内容边距调整行为（iOS 11+）
+    @available(iOS 11.0, *)
+    func contentInsetAdjustmentBehavior(_ behavior: UIScrollView.ContentInsetAdjustmentBehavior) -> Self {
+        scrollView.contentInsetAdjustmentBehavior = behavior
+        return self
     }
 }
