@@ -96,7 +96,7 @@ class VerticalScrollViewController: UIViewController {
     private let colorView2 = UIView()
     private let colorView3 = UIView()
 
-    private lazy var scrollView = ScrollView { [unowned self] in
+    private lazy var scrollView = ProxyScrollView { [unowned self] in
 
         VStack(spacing: 8) {
             colorView1
@@ -150,7 +150,7 @@ class HorizontalScrollViewController: UIViewController {
         }
     }()
 
-    private lazy var scrollView = ScrollView(.horizontal, showsIndicators: false) { [weak self] in
+    private lazy var scrollView = ProxyScrollView(.horizontal, showsIndicators: false) { [weak self] in
         guard let self = self else { return EmptyLayout() }
         return HStack(spacing: 12) {
             ForEach(self.items) { item in
@@ -190,7 +190,7 @@ class ComplexScrollViewController: UIViewController {
     }()
     private let footerView = UIView()
 
-    private lazy var scrollView = ScrollView(.vertical, showsIndicators: true) { [unowned self] in
+    private lazy var scrollView = ProxyScrollView(.vertical, showsIndicators: true) { [unowned self] in
         VStack(spacing: 16) {
             // Header
             self.headerView
@@ -239,7 +239,7 @@ class NestedLayoutScrollViewController: UIViewController {
     private let rightCard = UIView()
     private let bottomSection = UIView()
 
-    private lazy var scrollView = ScrollView { [unowned self] in
+    private lazy var scrollView = ProxyScrollView { [unowned self] in
         VStack(spacing: 20) {
             // 顶部区域
             self.topSection
@@ -290,9 +290,8 @@ class DynamicScrollViewController: UIViewController {
 
     private var items: [UIView] = []
 
-    private lazy var scrollView = ScrollView { [weak self] in
-        guard let self = self else { return EmptyLayout() }
-        return VStack(spacing: 12) {
+    private lazy var scrollView = ProxyScrollView { [unowned self] in
+        VStack(spacing: 12) {
             ForEach(self.items) { item in
                 item
                     .frame(height: 80)

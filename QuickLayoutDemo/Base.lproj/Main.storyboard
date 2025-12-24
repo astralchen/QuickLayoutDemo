@@ -99,6 +99,26 @@
                                             <segue destination="egU-bO-Oil" kind="show" id="1Z3-Ig-CzO"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="A1P-bA-5cd" style="IBUITableViewCellStyleDefault" id="001-Sa-1Jp">
+                                        <rect key="frame" x="0.0" y="258.33333396911621" width="393" height="52"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="001-Sa-1Jp" id="HA9-q5-9T1">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="52"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="DynamicScrollViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="A1P-bA-5cd">
+                                                    <rect key="frame" x="20" y="0.0" width="353" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="uIc-VV-CSt" kind="show" id="Nww-oi-tD5"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -116,7 +136,7 @@
         <!--Message-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Message" id="BYZ-38-t0r" customClass="MesssageViewController" customModule="MessageCell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Message" id="BYZ-38-t0r" customClass="MesssageViewController" customModule="QuickLayoutDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -132,7 +152,7 @@
         <!--ScrollViewController-->
         <scene sceneID="gzo-Hk-gZd">
             <objects>
-                <viewController id="O92-w0-9PO" customClass="ScrollViewController" customModule="MessageCell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="O92-w0-9PO" customClass="ScrollViewController" customModule="QuickLayoutDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QGa-7c-odm">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -148,7 +168,7 @@
         <!--HorizontalScrollViewController-->
         <scene sceneID="zSe-VF-GyG">
             <objects>
-                <viewController title="HorizontalScrollViewController" id="egU-bO-Oil" customClass="HorizontalScrollViewController" customModule="MessageCell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="HorizontalScrollViewController" id="egU-bO-Oil" customClass="HorizontalScrollViewController" customModule="QuickLayoutDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nDd-Ay-KSy">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -161,10 +181,26 @@
             </objects>
             <point key="canvasLocation" x="1295" y="1671"/>
         </scene>
+        <!--DynamicScrollViewController-->
+        <scene sceneID="Vzd-cq-GCR">
+            <objects>
+                <viewController title="DynamicScrollViewController" id="uIc-VV-CSt" customClass="DynamicScrollViewController" customModule="QuickLayoutDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sjX-vp-cMK">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="LAp-Wg-ofd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="DynamicScrollViewController" id="0Mo-eq-jMQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r9w-pI-pEV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1294" y="2359"/>
+        </scene>
         <!--SimpleScrollViewController-->
         <scene sceneID="S0I-or-hff">
             <objects>
-                <viewController title="SimpleScrollViewController" id="CNA-gZ-roq" customClass="VerticalScrollViewController" customModule="MessageCell" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="SimpleScrollViewController" id="CNA-gZ-roq" customClass="VerticalScrollViewController" customModule="QuickLayoutDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cfa-H2-V6H">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

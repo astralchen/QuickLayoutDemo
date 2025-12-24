@@ -4,7 +4,7 @@ import QuickLayout
 // MARK: - ScrollView 容器视图
 /// 类似 SwiftUI ScrollView 风格的滚动视图封装
 /// 参考: https://facebookincubator.github.io/QuickLayout/how-to-use/macro-layout-integration-donts/
-final class ScrollView: UIView, HasBody {
+final class ProxyScrollView: UIView, HasBody {
 
     // MARK: - Properties
     private(set) var scrollView = UIScrollView()
@@ -185,7 +185,7 @@ final class ScrollView: UIView, HasBody {
 }
 
 // MARK: - 便捷扩展
-extension ScrollView {
+extension ProxyScrollView {
 
     /// 设置代理
     func delegate(_ delegate: UIScrollViewDelegate?) -> Self {
