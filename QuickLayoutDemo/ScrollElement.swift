@@ -93,10 +93,7 @@ public class QLSrollView: UIScrollView, HasBody {
 public struct ScrollElement: Layout, LeafElement {
 
 
-
     let scrollView: QLSrollView
-    let axis: Axis
-
 
     public init(
         _ scrollView: QLSrollView,
@@ -105,7 +102,7 @@ public struct ScrollElement: Layout, LeafElement {
 
     ) {
         self.scrollView = scrollView
-        self.axis = axis
+        scrollView.axis = axis
         scrollView.children = children
 
     }
@@ -200,13 +197,14 @@ class HorizontalScrollViewViewController: QLHostingController {
     override var body: Layout {
 
         ScrollView(scrollView, axis: .horizontal) {
-            HStack(spacing: 0) {
+            HStack(spacing: 16) {
                 ForEach(views) { view in
                     view
                         .frame(width: 200)
+                        .padding(.vertical, view.safeAreaInsets.top)
                 }
             }
-//            .padding(16)
+            .padding(16)
 
         }
         .resizable()
