@@ -26,15 +26,25 @@ public class QLSrollView: UIScrollView, HasBody {
     
     public var children: [Element] = []
     
+    @LayoutBuilder
     public var body: Layout {
+        if children.isEmpty {
+            EmptyLayout()
+        } else {
+            axisLayout
+        }
+    }
+    
+    @LayoutBuilder
+    private var axisLayout: Layout {
         switch axis {
         case .vertical:
             VStack(alignment: .leading) {
-                return children
+                ForEach(children)
             }
         case .horizontal:
             HStack(alignment: .top) {
-                return children
+                ForEach(children)
             }
         }
     }
