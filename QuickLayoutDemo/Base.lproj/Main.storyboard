@@ -119,6 +119,26 @@
                                             <segue destination="uIc-VV-CSt" kind="show" id="Nww-oi-tD5"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="1S6-v5-aiQ" style="IBUITableViewCellStyleDefault" id="KRB-mA-HXP">
+                                        <rect key="frame" x="0.0" y="310.33333396911621" width="393" height="52"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KRB-mA-HXP" id="PtL-0P-dfX">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="52"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="HorizontalScrollViewViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1S6-v5-aiQ">
+                                                    <rect key="frame" x="20" y="0.0" width="353" height="52"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="XR3-o5-7Hr" kind="show" id="ysn-HK-ucv"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -196,6 +216,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r9w-pI-pEV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1294" y="2359"/>
+        </scene>
+        <!--QLScrollViewViewController-->
+        <scene sceneID="scB-42-BKl">
+            <objects>
+                <viewController title="QLScrollViewViewController" id="XR3-o5-7Hr" customClass="HorizontalScrollViewViewController" customModule="QuickLayoutDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UqT-rj-dLe">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="b2f-hP-Tsn"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="HorizontalScrollViewViewController" id="p4g-dd-1vf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LNh-yx-UgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1335" y="3037"/>
         </scene>
         <!--SimpleScrollViewController-->
         <scene sceneID="S0I-or-hff">
