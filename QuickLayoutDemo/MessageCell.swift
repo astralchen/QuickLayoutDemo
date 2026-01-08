@@ -54,20 +54,24 @@ final class MessageCell: UICollectionViewCell {
         setNeedsLayout()
     }
 
-    // ⭐让 CompositionalLayout 识别高度
-    override func preferredLayoutAttributesFitting(
-        _ layoutAttributes: UICollectionViewLayoutAttributes
-    ) -> UICollectionViewLayoutAttributes {
 
-        let targetSize = CGSize(
-            width: layoutAttributes.size.width,
-            height: .infinity
-        )
-        let size = systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-        layoutAttributes.size = size
-        return layoutAttributes
+
+    /// sizeThatFits for QuickLayout macro body
+    /// - Pass constrained width with unconstrained height to let the layout
+    ///   compute the natural content height.
+    /// - Works well for self-sizing UICollectionViewCell.
+    /// Docs:
+    /// https://facebookincubator.github.io/QuickLayout/how-to-use/macro-layout-integration-isBodyEnabled/
+    /// https://facebookincubator.github.io/QuickLayout/how-to-use/macro-layout-integration-dos/
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        // Constrain width; allow height to grow for natural measurement
+        let proposedSize = CGSize(width: size.width, height: .infinity)
+        // Alternative: if macro body sizing is enabled, measure via body
+        // let measured = body.sizeThatFits(proposedSize)
+        // return measured
+        // Measure via QuickLayout; fallback to incoming size if unavailable
+        return _QuickLayoutViewImplementation.sizeThatFits(self, size: proposedSize) ?? size
     }
-    
 }
 
 
